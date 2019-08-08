@@ -1,0 +1,55 @@
+.date{
+  background-color: white;
+  width: 60%;
+  margin: auto;
+  border: 1px solid #bdbfc1;
+  padding: 10px;
+}
+.date-info {
+
+}
+.date-title h3{
+  display: inline-block;
+}
+.date-title h3:first-child{
+  transition-duration: 0.2s;
+  cursor: pointer;
+  margin-left: 10px;
+}
+.date-title h3:nth-child(2){
+  margin-left: 10px;
+}
+.date-title h3:nth-child(3){
+  float: right;
+  margin-right: 15px;
+}
+
+.income{
+	margin: 0px 40px 0px 30px;
+}
+.income-title{
+	display: flex;
+	justify-content: space-between;
+}
+.income-goods{
+	display: flex;
+	justify-content: left;
+}
+.income-goods p:first-child{
+	margin-left: 10px;
+	cursor: pointer;
+	transition-duration: 0.5s;
+}
+.income-goods p:nth-child(2){
+	margin-left: 5px;
+}
+body {
+background-color: #e8ebef;
+font-size: large;
+}
+li {
+list-style-type: none;
+}
+.goods{
+	margin: 0px 30px;
+}
