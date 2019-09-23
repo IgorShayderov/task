@@ -1,9 +1,15 @@
 const gulp = require('gulp');
+const gulpData = require('gulp-data');
 const njkRender = require('gulp-nunjucks-render');
 const prettify = require('gulp-html-prettify');
 const concat = require('gulp-concat');
 const del = require('del');
 const browserSync = require('browser-sync').create();
+const sass = require('gulp-sass');
+const plumber = require('gulp-plumber');
+const notify = require('gulp-notify');
+const sourcemaps = require('gulp-sourcemaps');
+const cleanCSS = require('gulp-clean-css');
 const jsFiles = [
 './src/js/jquery-3.4.0.min.js',
 './src/js/back.js',
@@ -19,9 +25,20 @@ function nunjucks() {
 		)
 		.pipe(browserSync.stream());
 }
-function style() {
-	return gulp.src('./src/css/*.css')
+function scss (){
+	return gulp.src('./src/style/*.scss')
+	.pipe(plumber({
+    errorHandler: function(err) {
+		notify.onError({
+		title: "Ошибка в CSS",
+		message: "<%= error.message %>"
+		})(err);
+	}
+    }))
+    .pipe(sourcemaps.init() )
+	.pipe (sass())
 	.pipe(concat('all.css'))
+	.pipe(cleanCSS())
 	.pipe(gulp.dest('./build'))
 	.pipe(browserSync.stream());
 }
@@ -43,11 +60,11 @@ function watch() {
         }
    		});
 	    gulp.watch('./src/**/*.njk', gulp.series(nunjucks));
-	    gulp.watch('./src/css/*.css', style);
+	    gulp.watch('./src/style/*.scss', scss);
 	    gulp.watch('./src/js/*.js', js_files);
 	    gulp.watch('./*.html', browserSync.reload);
 }
 
-let go = gulp.series(clean, gulp.parallel(nunjucks, style, js_files), gulp.series(watch));
+let go = gulp.series(clean, gulp.parallel(nunjucks, scss, js_files), gulp.series(watch));
 gulp.task('go', go);
 
