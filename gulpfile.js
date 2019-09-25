@@ -1,5 +1,4 @@
 const gulp = require('gulp');
-const gulpData = require('gulp-data');
 const njkRender = require('gulp-nunjucks-render');
 const prettify = require('gulp-html-prettify');
 const concat = require('gulp-concat');
@@ -15,9 +14,27 @@ const jsFiles = [
 './src/js/back.js',
 './src/js/front.js']
 
+const sqliteJson = require('sqlite-json');
+const sqlite3 = require('sqlite3');
+var db = new sqlite3.Database('database.db3');
+exporter = sqliteJson(db);
+let new_table = 
+'SELECT  docs.date, docTypes.name as income, rows.DocId, products.image, products.name, products.price, rows.quantity, ' +
+'products.removed FROM rows ' +
+'INNER JOIN docs ON rows.DocId = docs.Id ' +
+'INNER JOIN docTypes ON docs.typeId = docTypes.Id ' +
+'INNER JOIN products ON rows.productId = products.Id ' +
+'ORDER BY docs.date';
+
+let getGoods = exporter.json(new_table, function (err, json) {
+	return "hi NIGGER";
+  });
+
 function nunjucks() {
 	return gulp.src('./src/main.njk')
-		.pipe(njkRender())
+		.pipe(njkRender({data: {
+			goods: getGoods()
+		}}))
 		.pipe(prettify({
 			indent_size : 4
 		})
