@@ -2,22 +2,53 @@ const gulp = require('gulp');
 const njkRender = require('gulp-nunjucks-render');
 const prettify = require('gulp-html-prettify');
 const concat = require('gulp-concat');
+const uglify = require('gulp-uglify');
 const del = require('del');
 const browserSync = require('browser-sync').create();
 const sass = require('gulp-sass');
+const autoprefixer = require('gulp-autoprefixer');
 const plumber = require('gulp-plumber');
 const notify = require('gulp-notify');
 const sourcemaps = require('gulp-sourcemaps');
 const cleanCSS = require('gulp-clean-css');
-const uglify = require('gulp-uglify');			//?
+const uglify = require('gulp-uglify');
+const data = require('gulp-data');
 const fs = require('fs'); 
-let json = JSON.parse(fs.readFileSync('./json_table.json'));
 const jsFiles = [
 './src/js/back.js',
 './src/js/front.js']
 
 function nunjucks() {
+	let dataFile = './json_table.json';
+	let newData = function(){
+		let data = {};
+		JSON.parse(fs.readFileSync(dataFile)).forEach(function(elem){			
+			if (!( data.hasOwnProperty(elem["date"]) )) {
+				data[elem["date"]] = {};
+			}
+			if (! (data[elem["date"]].hasOwnProperty([elem["docId"]]) )) {
+				data[elem["date"]][elem["docId"]] = {};
+				data[elem["date"]][elem["docId"]]["docType"] = elem["income"];
+			}
+			data[elem["date"]][elem["docId"]][elem["name"]] = {image: elem["image"],
+			name: elem["name"],price: elem["price"],quantity: elem["quantity"],
+			removed: elem["removed"] };	
+		})
+		return data;
+	};
 	return gulp.src('./src/main.njk')
+		.pipe(data(function(file) {
+        	return {"data": newData()
+			}
+		}))
+		.pipe(plumber({
+			errorHandler: function(err) {
+				notify.onError({
+				title: "Ошибка в Nunjucks",
+				message: "<%= error.message %>"
+				})(err);
+			}
+			}))
 		.pipe(njkRender())
 		.pipe(prettify({
 			indent_size : 4
@@ -36,18 +67,23 @@ function scss (){
 		})(err);
 	}
     }))
-    .pipe(sourcemaps.init())
+	.pipe(sourcemaps.init())
 	.pipe (sass())
 	.pipe(concat('all.css'))
+	.pipe(autoprefixer({
+		cascade: false
+	}))
 	.pipe(cleanCSS())
 	.pipe(sourcemaps.write())
 	.pipe(gulp.dest('./build'))
+	.pipe(sourcemaps.write())
 	.pipe(browserSync.stream());
 }
 function js_files() {
 	return gulp.src(jsFiles)
 	.pipe(sourcemaps.init())
 	.pipe(concat('all.js'))
+	// .pipe(uglify())
 	.pipe(sourcemaps.write())
 	.pipe(gulp.dest('./build'))
 	.pipe(browserSync.stream());

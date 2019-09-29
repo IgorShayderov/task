@@ -1,7 +1,7 @@
 {% include "./src/date.njk" %}
 <!DOCTYPE HTML>
 <html lang="ru">
-
+{# {%%} #}
 <head>
 	<title>Тестовое задание</title>
 	<meta charset="utf-8">
@@ -10,6 +10,18 @@
 	<script src='all.js'></script>
 </head>
 <body>
+
+<br><br>
+
+{% for date, docId_obj in data %}
+	{%	for docId, product_obj in docId_obj%}
+		{%	for product, product_property in product_obj%}
+			{%	for property, value in product_property %}
+Date: {{ date }}, docId: {{ docId }}, product: {{ product }}, property: {{property}}: {{value}}  <br><br>
+			{% endfor %}
+		{% endfor %}
+	{% endfor %}
+{% endfor %}
 
 <br><br>
 
