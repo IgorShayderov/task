@@ -11,13 +11,7 @@ var new_table =
 'INNER JOIN products ON rows.productId = products.Id ' +
 'ORDER BY docs.date';
 
-exporter.save(new_table, './json_table.json', function (err, data) {
-	console.log("Created new file.");
-	if (err) {console.log(err);};
-	return JSON.parse(data);
-});
-
 exporter.json(new_table, function (err, json) {
 	if (err) {console.log(err);};
-	return JSON.parse(json); c
+	return json;
 });

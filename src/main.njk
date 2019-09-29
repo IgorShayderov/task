@@ -1,5 +1,4 @@
 {% include "./src/date.njk" %}
-{% set username = "Igor" %}
 <!DOCTYPE HTML>
 <html lang="ru">
 
@@ -12,16 +11,7 @@
 </head>
 <body>
 
-{% for ingredient, amount in goods %}
-  Use {{ amount }} of {{ ingredient }} <br><br>
-{% endfor %}
-<br>
-<br>
-
-{{goods.date}}
-{{goods[0]}}
-<br>
-{{username}}
+<br><br>
 
 </body>
 </html>
