@@ -18,8 +18,23 @@ INNER JOIN docTypes ON docs.typeId = docTypes.Id
 INNER JOIN products ON rows.productId = products.Id
 ORDER BY docs.date;*/
 
-exporter.save(new_table, './json_table.json', function (err, data) {
-    console.log("Created new file.");
-    console.log(err);
-    // console.log(data);
-});
+exporter.json(new_table, function (err, json) {
+    if (err){console.error(err);}
+    let sql = JSON.parse(json);
+    let data_ar = {};
+    sql.forEach(function(elem){
+
+    	if (!( data_ar.hasOwnProperty(elem["date"]) )) {
+    		data_ar[elem["date"]] = {};
+    	}
+    	if (! (data_ar[elem["date"]].hasOwnProperty([elem["docId"]]) )) {
+    		data_ar[elem["date"]][elem["docId"]] = {};
+    		data_ar[elem["date"]][elem["docId"]]["docType"] = elem["income"];
+    	}
+    	data_ar[elem["date"]][elem["docId"]][elem["name"]] = {image: elem["image"],
+    	name: elem["name"],price: elem["price"],quantity: elem["quantity"],
+        removed: elem["removed"] };
+    
+    });
+    return data_ar;
+  });

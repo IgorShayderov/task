@@ -1,14 +1,18 @@
-$(function (){
+'use strict';
+window.addEventListener('load', function (){
 	function readTextFile(file, callback) {
 	    const request = new XMLHttpRequest();
 	    request.overrideMimeType("application/json");
 	    request.open("GET", file, true);
 	    request.onreadystatechange = function() {
 	        if (request.readyState === 4 && request.status == "200") {
-	            callback(request.responseText);
-	        } else {
-	        	console.log(" " + request.statusText);
-	        }
+				callback(request.responseText);
+			} else if (request.status == "404"){
+				console.error("File not found!");
+			}
+			 else {
+	        	console.log(`Processing... ready state: ${request.readyState}`);
+			}
 	    }
 	    request.send(null);
 	}
