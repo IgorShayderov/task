@@ -18,28 +18,107 @@ window.addEventListener('load', function (){
 	}
 
 	let sql;
-	let data_ar = {};
+	let $data = [];
 
 	readTextFile("./json_table.json", function(text){
     sql = JSON.parse(text);
+
+    function checkFor (element, index, array){
+		if ( element[this[1]] === this[0][this[1]] ){return true;} 
+	};
+
     sql.forEach(function(elem){
-    	//создать пустой объект новой даты
-    	if (!( data_ar.hasOwnProperty(elem["date"]) )) {
-    		data_ar[elem["date"]] = {};
-    	}
-    	//создать пустой объект для всех docId внутри соответствующих дат
-    	if (!(data_ar[elem["date"]].hasOwnProperty([elem["docId"]]) )) {
-    		data_ar[elem["date"]][elem["docId"]] = {};
-    	//для соответсвующей даты -> соответствующего docId, добавить свойство docType 
-    		data_ar[elem["date"]][elem["docId"]]["docType"] = elem["income"];
-    	}
-    	//для соответсвующей даты -> соответствующего docId, добавить продукт содержащий внутри свойства(цена, количество и тд)
-    	data_ar[elem["date"]][elem["docId"]][elem["name"]] = {image: elem["image"],
-    	name: elem["name"],price: elem["price"],quantity: elem["quantity"],
-    	removed: elem["removed"] };
-    });
-    console.log(data_ar);
-    });
+
+	    function dataWatcher(obj){ 
+	    	return new Proxy(obj, {
+		        set(target, name, value){
+		            target[name] = value;
+		            return true;
+		        }, 
+		        get(target, name){
+
+		        	switch (name) {
+		        		case "date":
+		        			return target.find( checkFor, [elem, name]);
+		        		case "products":			
+						default:
+		        			return dataWatcher( target[name] );
+		        	}
 
 
+		        }
+    		}); 
+	    }
+	    /////////////////////////////////////////////////////
+const handler = {
+get(target, key) {
+	if (key == 'isProxy')
+		return true;
+
+	const prop = target[key];
+
+	// return if property not found
+	if (typeof prop == 'undefined')
+		return;
+
+	// set value as proxy if object
+	if (!prop.isBindingProxy && typeof prop === 'object')
+		target[key] = new Proxy(prop, handler);
+
+	return target[key];
+},
+set(target, key, value) {
+	console.log('Setting', target, `.${key} to equal`, value);
+
+	// todo : call callback
+
+	target[key] = value;
+	return true;
+}
+};
+
+
+const proxy = new Proxy (test, handler);
+
+console.log(proxy);
+console.log(proxy.string); // "data"
+
+proxy.string = "Hello";
+
+console.log(proxy.string); // "Hello"
+
+console.log(proxy.object); // { "string": "data", "number": 32434 }
+
+proxy.object.string = "World";
+
+console.log(proxy.object.string); // "World"
+
+//////////////////////////////////////////////////////////////
+		let data = dataWatcher($data);
+		if (!( $data.some( checkFor, [elem, "date"] ) )) {
+        		$data.push( {
+				"date": elem["date"],
+				"docs": []
+				})
+		}
+
+    	if (!( data.date.docs.some( checkFor, [elem, "docId"] ) )){
+    		data.date.docs.push( {
+    			"docId": elem["docId"],
+    			"docType": elem["income"],
+    			"products": []
+    		} );
+    	}
+
+    	// data.date.docs.products.push( {
+    	// 	"name": elem["name"],
+    	// 	"image": elem["image"],
+    	// 	"price": elem["price"],
+    	// 	"quantity": elem["quantity"],
+    	// 	"removed": elem["removed"]
+    	// } );
+
+    });
+    console.log($data);
+	});
 });

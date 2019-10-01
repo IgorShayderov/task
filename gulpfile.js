@@ -11,12 +11,8 @@ const plumber = require('gulp-plumber');
 const notify = require('gulp-notify');
 const sourcemaps = require('gulp-sourcemaps');
 const cleanCSS = require('gulp-clean-css');
-const uglify = require('gulp-uglify');
 const data = require('gulp-data');
-const fs = require('fs'); 
-const jsFiles = [
-'./src/js/back.js',
-'./src/js/front.js']
+const fs = require('fs');
 
 function nunjucks() {
 	let dataFile = './json_table.json';
@@ -76,16 +72,15 @@ function scss (){
 	.pipe(cleanCSS())
 	.pipe(sourcemaps.write())
 	.pipe(gulp.dest('./build'))
-	.pipe(sourcemaps.write())
 	.pipe(browserSync.stream());
 }
 function js_files() {
-	return gulp.src(jsFiles)
+	return gulp.src('./src/js/*.js')
 	.pipe(sourcemaps.init())
-	.pipe(concat('all.js'))
 	// .pipe(uglify())
-	.pipe(sourcemaps.write())
+	.pipe(concat('all.js'))
 	.pipe(gulp.dest('./build'))
+	.pipe(sourcemaps.write())
 	.pipe(browserSync.stream());
 }
 function clean () {
