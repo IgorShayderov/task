@@ -29,73 +29,45 @@ window.addEventListener('load', function (){
 
     sql.forEach(function(elem){
 
-	    function dataWatcher(obj){ 
-	    	return new Proxy(obj, {
+	    let data = new Proxy($data, {
 		        set(target, name, value){
 		            target[name] = value;
 		            return true;
 		        }, 
 		        get(target, name){
+		        	console.log("Name " + name);
+		        	console.log(toString(name));
+		        	console.log(typeof target[name]);
+				if (name == 'isProxy')
+					return true;
 
-		        	switch (name) {
-		        		case "date":
-		        			return target.find( checkFor, [elem, name]);
-		        		case "products":			
-						default:
-		        			return dataWatcher( target[name] );
-		        	}
+				const prop = target[name];
 
+				if (typeof prop == 'undefined') {
+					return;
+				}
+				if (toString(name) == "date") {
+					return target.find( checkFor, [elem, name]);
+				}
+				if (!prop.isBindingProxy && typeof prop === 'object') {
+					target[name] = new Proxy(prop, handler);
+				}
 
+				return target[name];
 		        }
     		}); 
-	    }
-	    /////////////////////////////////////////////////////
-const handler = {
-get(target, key) {
-	if (key == 'isProxy')
-		return true;
+	    
+// get(target, name){
 
-	const prop = target[key];
-
-	// return if property not found
-	if (typeof prop == 'undefined')
-		return;
-
-	// set value as proxy if object
-	if (!prop.isBindingProxy && typeof prop === 'object')
-		target[key] = new Proxy(prop, handler);
-
-	return target[key];
-},
-set(target, key, value) {
-	console.log('Setting', target, `.${key} to equal`, value);
-
-	// todo : call callback
-
-	target[key] = value;
-	return true;
-}
-};
-
-
-const proxy = new Proxy (test, handler);
-
-console.log(proxy);
-console.log(proxy.string); // "data"
-
-proxy.string = "Hello";
-
-console.log(proxy.string); // "Hello"
-
-console.log(proxy.object); // { "string": "data", "number": 32434 }
-
-proxy.object.string = "World";
-
-console.log(proxy.object.string); // "World"
-
-//////////////////////////////////////////////////////////////
-		let data = dataWatcher($data);
+//                     switch (name) {
+//                         case "date":
+//                             return target.find( checkFor, [elem, name]);
+//                         case "products":            
+//                         default:
+//                             return dataWatcher( target[name] );
+//                     }
 		if (!( $data.some( checkFor, [elem, "date"] ) )) {
+				console.log("Initialization...");
         		$data.push( {
 				"date": elem["date"],
 				"docs": []
