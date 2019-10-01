@@ -28,67 +28,54 @@ window.addEventListener('load', function (){
 	};
 
     sql.forEach(function(elem){
-
-	    let data = new Proxy($data, {
+		function dataWatcher(data){
+			return new Proxy(data, {
 		        set(target, name, value){
 		            target[name] = value;
 		            return true;
 		        }, 
 		        get(target, name){
-		        	console.log("Name " + name);
-		        	console.log(toString(name));
-		        	console.log(typeof target[name]);
-				if (name == 'isProxy')
-					return true;
+					switch (name) {
+						case "isProxy":
+							return true;
+						case "date":
+							return target.find( checkFor, [elem, name]);						
+						case "docs":
+							return target.find( checkFor, [elem, "date"])["docs"];
+						case "products":
+							return target.find( checkFor, [elem, "date"])["docs"].find( checkFor, [elem, "docId"] ).products;
+						default:
+							return dataWatcher( target[name] );
+               		 }
+    			} 
+			})
+		}
 
-				const prop = target[name];
+		let data = dataWatcher($data);
 
-				if (typeof prop == 'undefined') {
-					return;
-				}
-				if (toString(name) == "date") {
-					return target.find( checkFor, [elem, name]);
-				}
-				if (!prop.isBindingProxy && typeof prop === 'object') {
-					target[name] = new Proxy(prop, handler);
-				}
-
-				return target[name];
-		        }
-    		}); 
-	    
-// get(target, name){
-
-//                     switch (name) {
-//                         case "date":
-//                             return target.find( checkFor, [elem, name]);
-//                         case "products":            
-//                         default:
-//                             return dataWatcher( target[name] );
-//                     }
 		if (!( $data.some( checkFor, [elem, "date"] ) )) {
-				console.log("Initialization...");
         		$data.push( {
 				"date": elem["date"],
 				"docs": []
 				})
 		}
 
-    	if (!( data.date.docs.some( checkFor, [elem, "docId"] ) )){
-    		data.date.docs.push( {
+    	if (!( data.docs.some( checkFor, [elem, "docId"] ) )){
+    		data.docs.push( {
     			"docId": elem["docId"],
     			"docType": elem["income"],
     			"products": []
     		} );
     	}
 
-    	// data.date.docs.products.push( {
-    	// 	"name": elem["name"],
-    	// 	"image": elem["image"],
-    	// 	"price": elem["price"],
-    	// 	"quantity": elem["quantity"],
-    	// 	"removed": elem["removed"]
-    	// } );
+
+    	data.products.push( {
+    		"name": elem["name"],
+    		"image": elem["image"],
+    		"price": elem["price"],
+    		"quantity": elem["quantity"],
+    		"removed": elem["removed"]
+    	} );
 
     });
     console.log($data);

@@ -14,17 +14,10 @@
 <br><br>
 
 
-{% for date, docId_obj in data %}
-
-	{%	for docId, product_obj in docId_obj%}
-	
-		{%	for product, product_property in product_obj%}
-
-Loop index: {{loop.index}}. Date: {{ date }}, docId: {{ docId }}, product: {{ product }}  <br><br>
-
-
-		{% endfor %}
-	{% endfor %}
+{% for dates in data %}
+  {% for date, docs in dates %}
+    and {{docs}}
+  {% endfor %}  
 {% endfor %}}}
 
 <br><br>
