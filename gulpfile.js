@@ -13,41 +13,53 @@ const sourcemaps = require('gulp-sourcemaps');
 const cleanCSS = require('gulp-clean-css');
 const data = require('gulp-data');
 const fs = require('fs');
-const dataStructure = require('./src/js/dataStructure.js');
+const jQuery = require('jQuery');
 
-function nunjucks() {
-	let dataFile = JSON.parse(fs.readFileSync('./json_table.json'));
-	let getData = dataStructure.newData(dataFile);
-	
+let newData = require('./_modules/dataStructure.js');
+let dataFile = fs.readFileSync('./json_table.json');
+
+let manageEnvironment = function(environment) {
+  environment.addFilter('reduce', function(array) {
+    let accumulator = 0;
+    for ( let i = 0; i < array.length; i++ ){
+    		accumulator += array[i].price * array[i].quantity;
+    }
+    return accumulator.toFixed(2);
+  });  
+}
+
+function nunjucks() {	
 	return gulp.src('./src/main.njk')
-		.pipe(data(function(file) {
-        	return {"data": getData
-			}
+	.pipe(data(function(file) {
+    	return {"data": newData(dataFile)
+		}
+	}))
+	.pipe(plumber({
+		errorHandler: function(err) {
+			notify.onError({
+			title: "Ошибка в Nunjucks",
+			message: "<%= error.message %>"
+			})(err);
+		}
 		}))
-		.pipe(plumber({
-			errorHandler: function(err) {
-				notify.onError({
-				title: "Ошибка в Nunjucks",
-				message: "<%= error.message %>"
-				})(err);
-			}
-			}))
-		.pipe(njkRender())
-		.pipe(prettify({
-			indent_size : 4
-		})
-		.pipe(gulp.dest('./build'))
-		)
-		.pipe(browserSync.stream());
+	.pipe(njkRender({
+		manageEnv: manageEnvironment
+	}))
+	.pipe(prettify({
+		indent_size : 4
+	})
+	.pipe(gulp.dest('./build'))
+	)
+	.pipe(browserSync.stream());
 }
 function scss (){
 	return gulp.src('./src/style/*.scss')
 	.pipe(plumber({
-    errorHandler: function(err) {
-		notify.onError({
-		title: "Ошибка в CSS",
-		message: "<%= error.message %>"
-		})(err);
+    	errorHandler: function(err) {
+			notify.onError({
+			title: "Ошибка в CSS",
+			message: "<%= error.message %>"
+			})(err);
 	}
     }))
 	.pipe(sourcemaps.init())
@@ -62,7 +74,8 @@ function scss (){
 	.pipe(browserSync.stream());
 }
 function js_files() {
-	return gulp.src('./src/js/*.js')
+	return gulp.src([ './node_modules/jquery/dist/jquery.js',
+		'./src/js/*.js'	])
 	.pipe(sourcemaps.init())
 	// .pipe(uglify())
 	.pipe(concat('all.js'))
@@ -87,3 +100,4 @@ function watch() {
 
 let go = gulp.series(clean, gulp.parallel(nunjucks, scss, js_files), gulp.series(watch));
 gulp.task('go', go);
+
