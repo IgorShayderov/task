@@ -1,17 +1,12 @@
 <!DOCTYPE HTML>
 <html lang="ru">
-{# {%%} #}
 <head>
 	<title>Тестовое задание</title>
 	<meta charset="utf-8">
 	<meta name='viewport' content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" type="text/css" href="all.css">
-	<script src='all.js'></script>
 </head>
 <body>
-<main class="wrapper">
-<br><br>
-
 
 {# date_obj - объект с датой #}
 {# date_obj.date - дата #}
@@ -21,20 +16,18 @@
 
 {% for date_obj in data %}
 	
-
 	<div class='date'>
-	<div class='date-title'>
-	<h3>&#9013; </h3><h3>{{ date_obj.date }}</h3> <h3>Документов: {{ date_obj.docs | length }} ({{amount}}) &#8381</h3></div>
-	<div class='date-info' style='display:none'>
+	<h3 class="date__btn">&#9013; </h3><h3>{{ date_obj.date }}</h3> <h3>Документов: {{ date_obj.docs | length }} ({{ date_obj.docs | dateTotal }} &#8381)</h3>
+		<div class='date-info' style='display:none'>
 
 	{% for doc in date_obj.docs %}
 
 		<div class='income'>
 			<div class='income-title'>
-				<h3>{{ doc.docType }} №{{ doc.docId }}</h3><h3>{{ doc.products | reduce }} &#8381;</h3>
+				<h3>{{ doc.docType }} №{{ doc.docId }}</h3><h3>{{ doc.products | docTotal }} &#8381;</h3>
 			</div>
 			<div class='income-goods'>
-				<p>&#9660;</p><p>Товаров: {{ doc.products | length }}</p> 
+				<p class="doc__btn">&#9660;</p><p>Товаров: {{ doc.products | length }}</p> 
 			</div>
 			<div class='income-info' style='display:none'>
 				<ul class='goods'>
@@ -53,7 +46,7 @@
 				штук
 			{% endif %}
 
-			 х {{ product.price }} {{ product.quantity * product.price }}</li><br>
+			 х {{ product.price }} {{ (product.quantity * product.price) | round(2) }}</li><br>
 			
 		{% endfor %}
 				</ul>
@@ -67,9 +60,6 @@
 
 {% endfor %}
 
-
-
-<br><br>
-</main>
+<script src='all.js'></script>
 </body>
 </html>

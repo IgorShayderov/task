@@ -15,18 +15,10 @@ const data = require('gulp-data');
 const fs = require('fs');
 const jQuery = require('jQuery');
 
+let manageEnvironment = require('./_modules/njkFilters.js');
 let newData = require('./_modules/dataStructure.js');
 let dataFile = fs.readFileSync('./json_table.json');
 
-let manageEnvironment = function(environment) {
-  environment.addFilter('reduce', function(array) {
-    let accumulator = 0;
-    for ( let i = 0; i < array.length; i++ ){
-    		accumulator += array[i].price * array[i].quantity;
-    }
-    return accumulator.toFixed(2);
-  });  
-}
 
 function nunjucks() {	
 	return gulp.src('./src/main.njk')
@@ -99,5 +91,4 @@ function watch() {
 }
 
 let go = gulp.series(clean, gulp.parallel(nunjucks, scss, js_files), gulp.series(watch));
-gulp.task('go', go);
-
+gulp.task('default', go);

@@ -5,21 +5,18 @@
   border: 1px solid #bdbfc1;
   padding: 10px;
 }
-.date-info {
-
-}
-.date-title h3{
+.date h3{
   display: inline-block;
 }
-.date-title h3:first-child{
+.date__btn{
   transition-duration: 0.2s;
   cursor: pointer;
   margin-left: 10px;
 }
-.date-title h3:nth-child(2){
+.date h3:nth-child(2){
   margin-left: 10px;
 }
-.date-title h3:nth-child(3){
+.date h3:nth-child(3){
   float: right;
   margin-right: 15px;
 }
