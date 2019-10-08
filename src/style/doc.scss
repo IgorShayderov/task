@@ -1,11 +1,11 @@
-.income{
+.doc{
 	margin: 0px 40px 0px 30px;
 }
-.income-title{
+.doc__title{
 	display: flex;
 	justify-content: space-between;
 }
-.income-goods{
+.doc__goods{
 	display: flex;
 	justify-content: left;
 }
@@ -14,6 +14,6 @@
 	cursor: pointer;
 	transition-duration: 0.5s;
 }
-.income-goods p:nth-child(2){
+.doc__goods p:nth-child(2){
 	margin-left: 5px;
 }

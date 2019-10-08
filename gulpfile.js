@@ -13,7 +13,6 @@ const sourcemaps = require('gulp-sourcemaps');
 const cleanCSS = require('gulp-clean-css');
 const data = require('gulp-data');
 const fs = require('fs');
-const jQuery = require('jQuery');
 
 let manageEnvironment = require('./_modules/njkFilters.js');
 let newData = require('./_modules/dataStructure.js');
@@ -37,11 +36,10 @@ function nunjucks() {
 	.pipe(njkRender({
 		manageEnv: manageEnvironment
 	}))
-	.pipe(prettify({
-		indent_size : 4
-	})
+	// .pipe(prettify({
+	// 	indent_size : 4
+	// })
 	.pipe(gulp.dest('./build'))
-	)
 	.pipe(browserSync.stream());
 }
 function scss (){
