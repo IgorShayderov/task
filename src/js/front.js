@@ -1,7 +1,14 @@
+	// $("body").children().each(function () {
+	// 	$(this).html( $(this).html().replace(/\./g, ",") );
+	// });
 window.addEventListener("load", function() {
+
 try{
-	$("body").children().each(function () {
-		$(this).html( $(this).html().replace(/\./g, ",") );
+	document.querySelectorAll(".products__item_wrap-img").forEach(function(img){
+		if (img.naturalWidth == 0) {
+			img.src = "./img/noImage.jpg";
+			img.style = "border:1px solid black";
+ 		}
 	});
 
 	$(".date").on("click", ".date__btn", function(event){

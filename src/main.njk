@@ -15,15 +15,15 @@
 
 {% for date_obj in data %}
 	
-	<div class='date'>
-	<h3 class="date__btn">&#9013; </h3><h3>{{ date_obj.date }}</h3> <h3>Документов: {{ date_obj.docs | length }} ({{ date_obj.docs | dateTotal }} &#8381;)</h3>
-		<div class='date-info' style='display:none'>
+<div class='date'>
+	<h3 class="date__btn">&#9013; </h3><h3>{{ date_obj.date }}</h3> <h3>Документов: {{ date_obj.docs | length }} ({{ date_obj.docs | dateTotal | replace(".", ",") }} &#8381;)</h3>
+	<div class='date-info' style='display:none'>
 
 	{% for doc in date_obj.docs %}
 
 		<div class='doc'>
 			<div class='doc__title'>
-				<h3>{{ doc.docType }} №{{ doc.docId }}</h3><h3>{{ doc.products | docTotal }} &#8381;</h3>
+				<h3>{{ doc.docType }} №{{ doc.docId }}</h3><h3>{{ doc.products | docTotal | replace(".", ",")}} &#8381;</h3>
 			</div>
 			<div class='doc__goods'>
 				<p class="doc__btn">&#9660;</p><p>Товаров: {{ doc.products | length }}</p> 
@@ -33,10 +33,16 @@
 
 		{% for product in doc.products %}
 			
-			<li class="products__item"><img src="{{ product.image }}" alt="{{ product.name }}">
-			
-			<h4>{{ product.name }}</h4>
-			{{ product.quantity }}
+			<li class="products__item">
+			<div class="products__item_wrap">
+			{% if product.image == null %}
+				<img class="products__item_wrap-img" src="./img/noImage.jpg" style="border: 1px solid black" alt="{{ product.name }}">
+			{% else %}
+				<img class="products__item_wrap-img" src="{{ product.image }}" alt="{{ product.name }}">
+			{% endif %} 
+				<div class="products__item__wrap_text">
+				<p class="products__item__wrap-name">{{ product.name }}</p>
+				<p>{{ product.quantity }}
 
 			{% if product.quantity % 10 === 1 or product.quantity === 1 %}
 				штука
@@ -53,7 +59,12 @@
 				штук 
 			{% endif %}
 				
-			 х {{ product.price }} {{ (product.quantity * product.price) | round(2) }}</li>
+			 х {{ product.price | replace(".", ",") }} &#8381;</p>
+			</p>
+			</div>
+			</div>
+
+			<p class="products__item-amount">{{ (product.quantity * product.price) | round(2) | replace(".", ",") }} &#8381;</p></li>
 			
 		{% endfor %}
 				</ul>

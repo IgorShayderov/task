@@ -18,7 +18,10 @@ let manageEnvironment = require('./_modules/njkFilters.js');
 let newData = require('./_modules/dataStructure.js');
 let dataFile = fs.readFileSync('./json_table.json');
 
-
+function images(){
+	return gulp.src('./src/img/**/*.*')
+	.pipe(gulp.dest('./build/img'))
+}
 function nunjucks() {	
 	return gulp.src('./src/main.njk')
 	.pipe(data(function(file) {
@@ -88,5 +91,5 @@ function watch() {
 	    gulp.watch('./src/js/*.js', js_files, browserSync.reload);
 }
 
-let go = gulp.series(clean, gulp.parallel(nunjucks, scss, js_files), gulp.series(watch));
+let go = gulp.series(clean, images, gulp.parallel(nunjucks, scss, js_files), gulp.series(watch));
 gulp.task('default', go);

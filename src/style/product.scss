@@ -6,4 +6,22 @@
 }
 .products__item{
 	list-style-type: none;
+	display: flex;
+	justify-content: space-between;
+	padding: 5px;
+}
+.products__item_wrap{
+	display: flex;
+}
+.products__item__wrap_text{
+	/*display: flex;*/
+	/*flex-direction: column;*/
+	/*justify-content: space-around;*/
+	padding-left: 10px;
+}
+.products__item_wrap-img{
+	max-width: 100px;
+}
+.products__item_wrap-name{
+
 }
