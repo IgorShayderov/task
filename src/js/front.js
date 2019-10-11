@@ -13,7 +13,7 @@ try{
 
 	$(".date").on("click", ".date__btn", function(event){
 		event.stopPropagation();
-		$(event.delegateTarget).children(".date-info").stop(true,true).slideToggle({
+		$(event.delegateTarget).find(".date-info").stop(true,true).slideToggle({
 			duration: 600,
 			start: function(){
 				$(event.currentTarget).toggleClass("rotate");
@@ -23,7 +23,7 @@ try{
 
 	$(".doc").on("click", ".doc__btn", function(event){
 		event.stopPropagation();
-		$(event.delegateTarget).children(".doc__info").stop(true, true).slideToggle({
+		$(event.delegateTarget).find(".doc__info").stop(true, true).slideToggle({
 			duration: 600,
 			start: function(){
 			$(event.currentTarget).toggleClass("rotate");

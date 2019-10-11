@@ -3,7 +3,13 @@
   width: 65%;
   margin: auto;
   border: 1px solid #bdbfc1;
+  margin-bottom: 5px;
+}
+.date__title{
   padding: 10px;
+}
+.date-info{
+  width: 100%;
 }
 .date h3{
   display: inline-block;
@@ -11,12 +17,12 @@
 .date__btn{
   transition-duration: 0.2s;
   cursor: pointer;
-  margin-left: 10px;
+  padding-left: 10px;
 }
 .date h3:nth-child(2){
-  margin-left: 10px;
+  padding-left: 10px;
 }
 .date h3:nth-child(3){
   float: right;
-  margin-right: 15px;
+  padding-right: 15px;
 }

@@ -1,3 +1,7 @@
+@mixin fade_long_text {
+	overflow: hidden;
+	text-overflow: ellipsis;
+  }
 .products{
 	margin: 0px 30px;
 }
@@ -8,19 +12,27 @@
 	list-style-type: none;
 	display: flex;
 	justify-content: space-between;
+	align-items: flex-end;
 	padding: 5px;
 }
 .products__item_wrap{
 	display: flex;
+	@include fade_long_text;
 }
-.products__item__wrap_text{
-	/*display: flex;*/
-	/*flex-direction: column;*/
-	/*justify-content: space-around;*/
+.products__item_wrap_text{
 	padding-left: 10px;
+	max-width: 500px;
+	
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+.products__item_wrap-name{
+	white-space: nowrap;
+	@include fade_long_text;
 }
 .products__item_wrap-img{
 	max-width: 100px;
+	max-height: 100px;
 }
 .products__item_wrap-name{
 
