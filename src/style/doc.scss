@@ -1,5 +1,8 @@
-.doc{
-	margin: 0px 40px 0px 30px;
+﻿.doc{
+	margin: 0 45px;
+}
+.doc:not(:last-child){
+    border-bottom: 1px solid gray;
 }
 .doc__title{
 	display: flex;
@@ -9,11 +12,16 @@
 	display: flex;
 	justify-content: left;
 }
+.doc__item-amount{
+	margin-left: 5px;
+}
+.doc__goods :not(.doc__btn), .doc__title{
+	font-size: 1.3rem;
+}
 .doc__btn{
 	margin-left: 10px;
 	cursor: pointer;
 	transition-duration: 0.5s;
-}
-.doc__goods p:nth-child(2){
-	margin-left: 5px;
+
+    font-family: TWB00o;
 }

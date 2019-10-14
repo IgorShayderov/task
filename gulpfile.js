@@ -19,8 +19,12 @@ let newData = require('./_modules/dataStructure.js');
 let dataFile = fs.readFileSync('./json_table.json');
 
 function images(){
-	return gulp.src('./src/img/**/*.*')
+	return gulp.src('./src/img/**/*')
 	.pipe(gulp.dest('./build/img'))
+}
+function fonts(){
+	return gulp.src('./src/fonts/**/*')
+	.pipe(gulp.dest('./build/fonts'))
 }
 function nunjucks() {	
 	return gulp.src('./src/main.njk')
@@ -68,7 +72,7 @@ function scss (){
 }
 function js_files() {
 	return gulp.src([ './node_modules/jquery/dist/jquery.js',
-		'./src/js/*.js'	])
+		'./src/js/front.js'	])
 	.pipe(sourcemaps.init())
 	// .pipe(uglify())
 	.pipe(concat('all.js'))
@@ -91,5 +95,5 @@ function watch() {
 	    gulp.watch('./src/js/*.js', js_files, browserSync.reload);
 }
 
-let go = gulp.series(clean, images, gulp.parallel(nunjucks, scss, js_files), gulp.series(watch));
+let go = gulp.series(clean, images, fonts, gulp.parallel(nunjucks, scss, js_files), gulp.series(watch));
 gulp.task('default', go);

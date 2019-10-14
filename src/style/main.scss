@@ -1,7 +1,19 @@
+@font-face{
+
+font-family: TWB00o;
+
+src: url('./fonts/TWB00o.ttf');
+}
 body {
 background-color: #e8ebef;
 font-size: large;
+margin: auto;
 }
 .rotate{
 	transform: rotate(180deg);
+}
+
+@media screen and (max-width: 800px) {
+
+
 }

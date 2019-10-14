@@ -1,6 +1,3 @@
-	// $("body").children().each(function () {
-	// 	$(this).html( $(this).html().replace(/\./g, ",") );
-	// });
 window.addEventListener("load", function() {
 
 try{
