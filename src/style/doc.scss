@@ -1,27 +1,33 @@
 ﻿.doc{
-	margin: 0 45px;
-}
-.doc:not(:last-child){
-    border-bottom: 1px solid gray;
-}
-.doc__title{
+	padding: 0 45px;
+
+	&:not(:last-child){
+	border-bottom: 1px solid gray;
+	}
+	.doc__title{
 	display: flex;
 	justify-content: space-between;
-}
-.doc__goods{
+	}
+	.doc__goods{
 	display: flex;
 	justify-content: left;
-}
-.doc__item-amount{
+		& > p{
+		margin-top: 0;
+		}
+	}
+	.doc__item-amount{
 	margin-left: 5px;
-}
-.doc__goods :not(.doc__btn), .doc__title{
+	}
+	.doc__goods :not(.doc__triangle), .doc__title{
 	font-size: 1.3rem;
-}
-.doc__btn{
-	margin-left: 10px;
+	}
+	.doc__triangle{
+	font-family: TWB00o;
 	cursor: pointer;
 	transition-duration: 0.5s;
-
-    font-family: TWB00o;
+	font-size: 1.5rem;
+	margin: 5px 0;
+	line-height: 0.9;
+	}
 }
+

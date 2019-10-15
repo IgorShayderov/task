@@ -3,36 +3,23 @@
   width: 65%;
   margin: auto;
   border: 1px solid #bdbfc1;
-  box-shadow: 0 5px 2px -2px gray;
+  box-shadow: 0 3px 2px 0px gray;
   margin-bottom: 3px;
-}
-.date__title{
-  padding: 10px;
-
+  .date__title{
+    padding: 0 10px;
+    font-size: 1.5rem;
+  }
   .date__current-date{
-    margin-left: 5px;
     display: inline-block;
   }
-  .date__btn{
+  .date__countersink{
     transition-duration: 0.2s;
-    cursor: pointer;
     display: inline-block;
-    margin-left: 5px;
+    margin: 0 5px;
+    cursor: pointer;
   }
   .date__document-amount{
     margin-right: 5px;
     float: right;
   }
 }
-
-.date-info{
-
-}
-.date__title{
-  font-size: 1.5rem;
-}
-.date__btn{
-  transition-duration: 0.2s;
-  cursor: pointer;
-}
-

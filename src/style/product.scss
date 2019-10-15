@@ -18,7 +18,6 @@
 }
 .products__item_wrap-for-image{
 	width: 100px;
-	/*overflow: hidden;*/
 	display: flex;
 	justify-content: center;
 	align-items: center;
@@ -36,7 +35,6 @@
 	@include fade_long_text;
 	white-space: nowrap;	
 }
-
 .products__item_wrap-amount-total{
 	float: right;
 }

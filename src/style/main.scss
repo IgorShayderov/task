@@ -1,19 +1,45 @@
 @font-face{
-
-font-family: TWB00o;
-
-src: url('./fonts/TWB00o.ttf');
+	font-family: TWB00o;
+	src: url('./fonts/TWB00o.ttf');
 }
 body {
-background-color: #e8ebef;
-font-size: large;
-margin: auto;
+	background-color: #e8ebef;
+	font-size: large;
+	margin: auto;
 }
 .rotate{
 	transform: rotate(180deg);
 }
+.scale{
+	transform: scaleX(-1);
+}
 
+//media
 @media screen and (max-width: 800px) {
+	.date{
+		width: 100%;
+	}
+}
 
+@media screen and (max-width: 500px) {
+	.date{
+		.date__document-amount{
+			margin: 0;
+			float: none;
+			position: relative;
+			text-align: center;
+		}
+		.date__current-date{
+  		}
+	}
+	.doc{
+		.doc__title{
+			flex-wrap: wrap;
+			justify-content: center;
+			&  p:first-child{
+				margin-bottom: 0;
+			}
+		}
+	}
 
 }

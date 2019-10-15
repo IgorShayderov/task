@@ -1,3 +1,4 @@
+'use strict';
 window.addEventListener("load", function() {
 
 try{
@@ -8,9 +9,9 @@ try{
  		}
 	});
 
-	$(".date").on("click", ".date__btn", function(event){
+	$(".date").on("click", ".date__countersink", function(event){
 		event.stopPropagation();
-		$(event.delegateTarget).find(".date-info").stop(true,true).slideToggle({
+		$(event.delegateTarget).find(".doc").stop(true,true).slideToggle({
 			duration: 600,
 			start: function(){
 				$(event.currentTarget).toggleClass("rotate");
@@ -18,12 +19,12 @@ try{
 		});
 	});
 
-	$(".doc").on("click", ".doc__btn", function(event){
+	$(".doc").on("click", ".doc__triangle", function(event){
 		event.stopPropagation();
-		$(event.delegateTarget).find(".doc__info").stop(true, true).slideToggle({
+		$(event.delegateTarget).find(".products__list").stop(true, true).slideToggle({
 			duration: 600,
 			start: function(){
-			$(event.currentTarget).toggleClass("rotate");
+			$(event.currentTarget).toggleClass("scale");
 		}
 		});
 	});
