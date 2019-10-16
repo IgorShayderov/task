@@ -1,33 +1,33 @@
-﻿.doc{
+﻿@import "mixin";
+.doc{
 	padding: 0 45px;
 
 	&:not(:last-child){
-	border-bottom: 1px solid gray;
-	}
-	.doc__title{
-	display: flex;
-	justify-content: space-between;
-	}
-	.doc__goods{
-	display: flex;
-	justify-content: left;
-		& > p{
-		margin-top: 0;
-		}
-	}
-	.doc__item-amount{
-	margin-left: 5px;
-	}
-	.doc__goods :not(.doc__triangle), .doc__title{
-	font-size: 1.3rem;
-	}
-	.doc__triangle{
-	font-family: TWB00o;
-	cursor: pointer;
-	transition-duration: 0.5s;
-	font-size: 1.5rem;
-	margin: 5px 0;
-	line-height: 0.9;
+		border-bottom: 1px solid gray;
 	}
 }
+.doc__title{
+	display: flex;
+	justify-content: space-between;
+}
+.doc__title_total-invisible{
+	display: none;
+	margin-right: 5px;
+}
+.doc__goods{
+	display: flex;
+	justify-content: left;
 
+	& > p{
+	margin-top: 0;
+	}
+}
+.doc__item-amount{
+	margin-left: 5px;
+}
+.doc__btn{
+	font-family: EversonMono;
+	font-size: 1.6rem;
+	line-height: 0.9;
+	@include button(0.5s, 5px 0);
+}

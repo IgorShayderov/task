@@ -1,20 +1,13 @@
-@mixin fade_long_text {
-	overflow: hidden;
-	text-overflow: ellipsis;
-  }
-
+@import "mixin";
 .products{
-	margin: 0px 30px;
-}
-.products__list{
-	
+	color: black;
+	font-weight: 500;
 }
 .products__item{
 	list-style-type: none;
 	display: flex;
 	justify-content: flex-start;
 	padding: 1.5px 5px;
-	font-weight: bold;
 }
 .products__item_wrap-for-image{
 	width: 100px;
@@ -35,9 +28,9 @@
 	@include fade_long_text;
 	white-space: nowrap;	
 }
-.products__item_wrap-amount-total{
-	float: right;
-}
 .products__item_wrap-amount{
 	text-align: left;
+}
+.products__item_wrap-amount-total{
+	float: right;
 }

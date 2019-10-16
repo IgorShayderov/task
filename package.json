@@ -9,6 +9,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@babel/polyfill": "^7.6.0",
     "del": "^4.0.0",
     "gulp-html-prettify": "0.0.1",
     "nunjucks": "^3.2.0",

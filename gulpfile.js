@@ -61,10 +61,10 @@ function scss (){
     }))
 	.pipe(sourcemaps.init())
 	.pipe (sass())
-	.pipe(concat('all.css'))
 	.pipe(autoprefixer({
 		cascade: false
 	}))
+	.pipe(concat('all.css'))
 	.pipe(cleanCSS())
 	.pipe(sourcemaps.write())
 	.pipe(gulp.dest('./build'))
@@ -76,8 +76,8 @@ function js_files() {
 	.pipe(sourcemaps.init())
 	// .pipe(uglify())
 	.pipe(concat('all.js'))
-	.pipe(gulp.dest('./build'))
 	.pipe(sourcemaps.write())
+	.pipe(gulp.dest('./build'))
 	.pipe(browserSync.stream());
 }
 function clean () {

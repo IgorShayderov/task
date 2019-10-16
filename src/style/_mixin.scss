@@ -1,0 +1,11 @@
+@mixin button($duration, $margin){
+	cursor: pointer;
+	width: 26px;
+	text-align: center;
+	transition-duration: $duration;
+	margin: $margin;
+}
+@mixin fade_long_text {
+	overflow: hidden;
+	text-overflow: ellipsis;
+}

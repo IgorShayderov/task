@@ -1,6 +1,6 @@
 @font-face{
-	font-family: TWB00o;
-	src: url('./fonts/TWB00o.ttf');
+	font-family: EversonMono;
+	src: url('./fonts/EversonMono.ttf');
 }
 body {
 	background-color: #e8ebef;
@@ -14,32 +14,57 @@ body {
 	transform: scaleX(-1);
 }
 
-//media
 @media screen and (max-width: 800px) {
 	.date{
 		width: 100%;
-	}
+		margin: 0;
+	}	
 }
-
-@media screen and (max-width: 500px) {
-	.date{
-		.date__document-amount{
-			margin: 0;
-			float: none;
-			position: relative;
-			text-align: center;
-		}
-		.date__current-date{
-  		}
+@media screen and (max-width: 550px) {
+	.date__btn, .doc__btn{
+		height: 30px;
+	}
+	.date__document-amount{
+		margin: 0 0 3px 0;
+		float: none;
+		position: relative;
+		text-align: center;
 	}
 	.doc{
-		.doc__title{
-			flex-wrap: wrap;
-			justify-content: center;
-			&  p:first-child{
-				margin-bottom: 0;
-			}
+		padding: 0 5px;
+	}
+	.doc__title{
+		flex-wrap: wrap;
+		justify-content: center;
+
+		&  p:first-child{
+			flex-grow: 1;
+			margin-bottom: 0;
+			flex-basis: 100%;
+			text-align: center;
 		}
 	}
-
+	.doc__title_total-invisible{
+		display: inline-block;
+	}
+	.doc__goods{
+		margin-left: 10px;
+	}
+	.products{
+		padding-left: 0;
+	}
+	.products__item{
+		flex-direction: column;
+		align-items: center;
+	}
+	.products__item_text-wrap{
+		max-width: 250px;
+		& span {
+			margin-left: 10px;
+		}
+	}
+	.products__item_wrap-name{
+		text-align: center;
+	}
 }
+

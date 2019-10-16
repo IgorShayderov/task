@@ -5,7 +5,7 @@
 	<meta charset="utf-8">
 	<meta name='viewport' content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" type="text/css" href="all.css">
-</head>
+</head> 
 <body>
 {# date_obj - объект с датой #}
 {# date_obj.date - дата #}  
@@ -15,9 +15,9 @@
 
 {% for date_obj in data %}
 	
-<div class='date'>
+<div class='date'> 
 	<div class="date__title"> 
-		<p class="date__countersink">&#9013;</p>
+		<p class="date__btn">&#9013;</p>
 		<p class="date__current-date">{{ date_obj.date | shortDate }}</p> 
 		<p class="date__document-amount">Документов: {{ date_obj.docs | length }} ({{ date_obj.docs | dateTotal | replace(".", ",") }} &#8381;)</p>
 	</div>
@@ -26,12 +26,12 @@
 
 		<div class='doc' style='display:none'>
 			<div class='doc__title'>
-				<p>{{ doc.docType }} №{{ doc.docId }}</p><p>{{ doc.products | docTotal | replace(".", ",")}} &#8381;</p>
+				<p>{{ doc.docType }} №{{ doc.docId }} </p><p><span class="doc__title_total-invisible">Всего:</span>{{ doc.products | docTotal | replace(".", ",")}} &#8381;</p>
 			</div>
 			<div class='doc__goods'>
-				<p class="doc__triangle">&#9207;</p><p class="doc__item-amount">Товаров: {{ doc.products | length }}</p> 
+				<p class="doc__btn">&#9207;</p><p class="doc__item-amount">Товаров: {{ doc.products | length }}</p> 
 			</div>
-				<ul class='products__list' style='display:none'> 
+				<ul class='products' style='display:none'> 
 
 		{% for product in doc.products %} 
 			

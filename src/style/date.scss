@@ -1,3 +1,4 @@
+@import "mixin";
 .date{
   background-color: white;
   width: 65%;
@@ -5,21 +6,20 @@
   border: 1px solid #bdbfc1;
   box-shadow: 0 3px 2px 0px gray;
   margin-bottom: 3px;
-  .date__title{
-    padding: 0 10px;
-    font-size: 1.5rem;
-  }
-  .date__current-date{
+  color: #474747;
+}
+.date__title{
+  padding: 0 10px;
+  font-size: 1.3rem;
+}
+.date__current-date{
     display: inline-block;
-  }
-  .date__countersink{
-    transition-duration: 0.2s;
-    display: inline-block;
-    margin: 0 5px;
-    cursor: pointer;
-  }
-  .date__document-amount{
-    margin-right: 5px;
-    float: right;
-  }
+}
+.date__btn{
+  display: inline-block;
+  @include button(0.2s, 0);
+}
+.date__document-amount{
+  margin-right: 5px;
+  float: right;
 }

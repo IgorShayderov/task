@@ -9,7 +9,7 @@ try{
  		}
 	});
 
-	$(".date").on("click", ".date__countersink", function(event){
+	$(".date").on("click", ".date__btn", function(event){
 		event.stopPropagation();
 		$(event.delegateTarget).find(".doc").stop(true,true).slideToggle({
 			duration: 600,
@@ -19,9 +19,9 @@ try{
 		});
 	});
 
-	$(".doc").on("click", ".doc__triangle", function(event){
+	$(".doc").on("click", ".doc__btn", function(event){
 		event.stopPropagation();
-		$(event.delegateTarget).find(".products__list").stop(true, true).slideToggle({
+		$(event.delegateTarget).find(".products").stop(true, true).slideToggle({
 			duration: 600,
 			start: function(){
 			$(event.currentTarget).toggleClass("scale");
