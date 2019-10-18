@@ -17,7 +17,8 @@
 }
 .date__btn{
   display: inline-block;
-  @include button(0.2s, 0);
+  @include button(0.2s, 0); 
+  font-weight: bold;
 }
 .date__document-amount{
   margin-right: 5px;

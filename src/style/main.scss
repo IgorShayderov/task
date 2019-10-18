@@ -7,6 +7,13 @@ body {
 	font-size: large;
 	margin: auto;
 }
+.date__btn, .changeFont{
+	font-display: swap;
+	font-family: EversonMono, default;
+}
+.lazy{
+	border: 1px solid black;
+}
 .rotate{
 	transform: rotate(180deg);
 }

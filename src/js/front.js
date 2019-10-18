@@ -1,13 +1,10 @@
+import 'core-js';
+import $ from "jquery";
+
 'use strict';
 window.addEventListener("load", function() {
 
 try{
-	document.querySelectorAll(".products__item_wrap-img").forEach(function(img){
-		if (img.naturalWidth == 0) {
-			img.src = "./img/noImage.jpg";
-			img.style = "border:1px solid black";
- 		}
-	});
 
 	$(".date").on("click", ".date__btn", function(event){
 		event.stopPropagation();
@@ -15,6 +12,26 @@ try{
 			duration: 600,
 			start: function(){
 				$(event.currentTarget).toggleClass("rotate");
+					$(this).find("img").each(function(index, element){
+						if ( $(element).attr("data-src") != false ) {
+							let oldSrc = $(element).attr("src");
+							$(element).attr("src", $(element).attr("data-src"));
+							let fetchImages = new Promise ((resolve, reject) => {
+								element.onload = function(){
+									// console.log("Изображение загружено");
+									resolve();
+								}
+								element.onerror = function(){
+									// console.log("Изображение не загрузилось")
+									reject(this);
+								}
+							})
+							fetchImages.then(
+								() => { $(element).removeClass("lazy"); },
+								() => {	$(this).attr("src", oldSrc); }
+							)									
+						}
+					});			
 			}
 		});
 	});
@@ -25,6 +42,7 @@ try{
 			duration: 600,
 			start: function(){
 			$(event.currentTarget).toggleClass("scale");
+
 		}
 		});
 	});

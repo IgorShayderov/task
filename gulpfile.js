@@ -13,10 +13,30 @@ const sourcemaps = require('gulp-sourcemaps');
 const cleanCSS = require('gulp-clean-css');
 const data = require('gulp-data');
 const fs = require('fs');
+const webpack = require('webpack-stream');
 
 let manageEnvironment = require('./_modules/njkFilters.js');
 let newData = require('./_modules/dataStructure.js');
 let dataFile = fs.readFileSync('./json_table.json');
+
+const isDev = true;
+
+let webpackConfig = {
+	output: {
+		filename: 'all.js'
+	},
+    module: {
+        rules: [
+            {
+                test: /\.js$/,
+                loader: 'babel-loader',
+                exclude: '/node_modules/'
+            }
+        ]
+    },
+    mode: isDev? 'development' : 'production',
+    devtool: isDev? 'eval-source-map' : 'none'
+};
 
 function images(){
 	return gulp.src('./src/img/**/*')
@@ -61,11 +81,11 @@ function scss (){
     }))
 	.pipe(sourcemaps.init())
 	.pipe (sass())
-	.pipe(autoprefixer({
-		cascade: false
-	}))
+	.pipe(autoprefixer(['last 15 versions', '> 1%', 'ie 8', 'ie 7'], { cascade: true }))
 	.pipe(concat('all.css'))
-	.pipe(cleanCSS())
+	.pipe(cleanCSS({
+		level: 2
+	}))
 	.pipe(sourcemaps.write())
 	.pipe(gulp.dest('./build'))
 	.pipe(browserSync.stream());
@@ -74,14 +94,22 @@ function js_files() {
 	return gulp.src([ './node_modules/jquery/dist/jquery.js',
 		'./src/js/front.js'	])
 	.pipe(sourcemaps.init())
-	// .pipe(uglify())
+	.pipe(uglify({
+		toplevel: true
+		}))
 	.pipe(concat('all.js'))
 	.pipe(sourcemaps.write())
 	.pipe(gulp.dest('./build'))
 	.pipe(browserSync.stream());
 }
+function scripts(){
+	return gulp.src('./src/js/front.js')
+	.pipe(webpack(webpackConfig))
+	.pipe (gulp.dest('./build'))
+	.pipe(browserSync.stream());
+}
 function clean () {
-	return del(['/build/*', '!/build/json_table.json']);
+	return del(['./build/*']);
 }
 function watch() {	
 	    browserSync.init({
@@ -92,8 +120,9 @@ function watch() {
    		});
 	    gulp.watch('./src/**/*.njk', nunjucks, browserSync.reload);
 	    gulp.watch('./src/style/*.scss', scss, browserSync.reload);
-	    gulp.watch('./src/js/*.js', js_files, browserSync.reload);
+	    gulp.watch('./src/js/*.js', scripts, browserSync.reload);
 }
 
-let go = gulp.series(clean, images, fonts, gulp.parallel(nunjucks, scss, js_files), gulp.series(watch));
+gulp.task('cleaner', clean);
+let go = gulp.series(clean, images, fonts, gulp.parallel(nunjucks, scss, scripts), gulp.series(watch));
 gulp.task('default', go);
