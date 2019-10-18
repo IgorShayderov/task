@@ -4,11 +4,13 @@ var db = new sqlite3.Database('database.db3');
 exporter = sqliteJson(db);
 
 var new_table = 
-'SELECT  docs.date, docTypes.name as income, rows.DocId, products.image, products.name, products.price, rows.quantity, ' +
-'products.removed FROM rows ' +
-'INNER JOIN docs ON rows.DocId = docs.Id ' +
-'INNER JOIN docTypes ON docs.typeId = docTypes.Id ' +
-'INNER JOIN products ON rows.productId = products.Id ' +
+'SELECT  docs.date, docTypes.name as income, rows.DocId, products.image, products.name, products.price, rows.quantity,' +
+'products.removed' +
+'FROM rows' +
+'INNER JOIN docs ON rows.DocId = docs.Id' +
+'INNER JOIN docTypes ON docs.typeId = docTypes.Id' +
+'INNER JOIN products ON rows.productId = products.Id' +
+'WHERE docs.removed = 0 AND docTypes.removed = 0' +
 'ORDER BY docs.date';
 
 exporter.save(new_table, './json_table.json' function (err, json) {

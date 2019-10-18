@@ -12,7 +12,7 @@ try{
 			duration: 600,
 			start: function(){
 				$(event.currentTarget).toggleClass("rotate");
-					$(this).find("img").each(function(index, element){
+					$(this).find("img").each(function(index, element) {
 						if ( $(element).attr("data-src") != false ) {
 							let oldSrc = $(element).attr("src");
 							$(element).attr("src", $(element).attr("data-src"));

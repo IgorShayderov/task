@@ -14,12 +14,13 @@ const cleanCSS = require('gulp-clean-css');
 const data = require('gulp-data');
 const fs = require('fs');
 const webpack = require('webpack-stream');
+const gulpif = require('gulp-if');
 
 let manageEnvironment = require('./_modules/njkFilters.js');
 let newData = require('./_modules/dataStructure.js');
 let dataFile = fs.readFileSync('./json_table.json');
 
-const isDev = true;
+const isDev = false;
 
 let webpackConfig = {
 	output: {
@@ -63,11 +64,11 @@ function nunjucks() {
 	.pipe(njkRender({
 		manageEnv: manageEnvironment
 	}))
-	// .pipe(prettify({
-	// 	indent_size : 4
-	// })
+	.pipe(prettify({
+		max_preserve_newlines: 1
+	}))
 	.pipe(gulp.dest('./build'))
-	.pipe(browserSync.stream());
+	.pipe(gulpif(isDev, browserSync.stream()));
 }
 function scss (){
 	return gulp.src('./src/style/*.scss')
@@ -79,34 +80,34 @@ function scss (){
 			})(err);
 	}
     }))
-	.pipe(sourcemaps.init())
+    .pipe(gulpif(isDev, sourcemaps.init()))
 	.pipe (sass())
 	.pipe(autoprefixer(['last 15 versions', '> 1%', 'ie 8', 'ie 7'], { cascade: true }))
 	.pipe(concat('all.css'))
 	.pipe(cleanCSS({
 		level: 2
 	}))
-	.pipe(sourcemaps.write())
+	.pipe(gulpif(isDev, sourcemaps.write()))
 	.pipe(gulp.dest('./build'))
-	.pipe(browserSync.stream());
+	.pipe(gulpif(isDev, browserSync.stream()));
 }
-function js_files() {
-	return gulp.src([ './node_modules/jquery/dist/jquery.js',
-		'./src/js/front.js'	])
-	.pipe(sourcemaps.init())
-	.pipe(uglify({
-		toplevel: true
-		}))
-	.pipe(concat('all.js'))
-	.pipe(sourcemaps.write())
-	.pipe(gulp.dest('./build'))
-	.pipe(browserSync.stream());
-}
+// function js_files() {
+// 	return gulp.src([ './node_modules/jquery/dist/jquery.js',
+// 		'./src/js/front.js'	])
+// 	.pipe(sourcemaps.init())
+// 	.pipe(uglify({
+// 		toplevel: true
+// 		}))
+// 	.pipe(concat('all.js'))
+// 	.pipe(sourcemaps.write())
+// 	.pipe(gulp.dest('./build'))
+// 	.pipe(browserSync.stream());
+// }
 function scripts(){
 	return gulp.src('./src/js/front.js')
 	.pipe(webpack(webpackConfig))
 	.pipe (gulp.dest('./build'))
-	.pipe(browserSync.stream());
+	.pipe(gulpif(isDev, browserSync.stream()));
 }
 function clean () {
 	return del(['./build/*']);
@@ -126,3 +127,5 @@ function watch() {
 gulp.task('cleaner', clean);
 let go = gulp.series(clean, images, fonts, gulp.parallel(nunjucks, scss, scripts), gulp.series(watch));
 gulp.task('default', go);
+let production = gulp.series(clean, images, fonts, gulp.parallel(nunjucks, scss, scripts));
+gulp.task('production', production);
